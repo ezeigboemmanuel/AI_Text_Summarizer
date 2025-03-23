@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import React from "react";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import Link from "next/link";
 
 const SummarizePage = () => {
   return (
@@ -18,29 +18,7 @@ const SummarizePage = () => {
         />
       </div>
 
-      {/* <div className="bg-white w-full h-[70vh] shadow-md rounded-2xl md:hidden">
-        <Tabs defaultValue="account" className="h-full">
-          <TabsList className="rounded-none bg-white">
-            <TabsTrigger value="summarizer">Summarizer</TabsTrigger>
-            <TabsTrigger value="summary">Summary</TabsTrigger>
-          </TabsList>
-          <TabsContent value="summarizer" className="p-3">
-            <textarea
-              className="w-full h-full resize-none focus:outline-none"
-              placeholder='Enter or paste your text and press "Generate Summary"'
-            />
-          </TabsContent>
-          <TabsContent value="summary" className="p-3">
-            <textarea
-              disabled
-              className="w-full h-full resize-none focus:outline-none"
-              placeholder=""
-            />
-          </TabsContent>
-        </Tabs>
-      </div> */}
-
-      <Button className="mt-8">Generate Summary</Button>
+      <Link href={"/summary/123"}><Button className="mt-8">Generate Summary</Button></Link>
     </div>
   );
 };
