@@ -9,7 +9,10 @@ const Hero = () => {
       <p className="text-[3vw] text-gray-700 italic mb-8">
         Summarize text in Seconds
       </p>
-      <Button>Get Started</Button>
+
+      <Link href="/summarize">
+        <Button>Get Started</Button>
+      </Link>
 
       <div className="absolute bottom-0 left-5">
         <p>
