@@ -6,10 +6,10 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 const SummaryPage = () => {
   return (
     <div className="bg-[#f5f5f5] flex flex-col justify-center items-center px-4 md:px-12 h-[90vh]">
-              <div className="bg-white w-full h-[70vh] shadow-md rounded-2xl hidden md:flex">
+      <div className="bg-white w-full h-[70vh] shadow-md rounded-2xl hidden md:flex">
         <textarea
+          disabled
           className="w-full rounded-l-2xl p-5 resize-none md:border-r focus:outline-none"
-          placeholder='Enter or paste your text and press "Generate Summary"'
         />
 
         <textarea
