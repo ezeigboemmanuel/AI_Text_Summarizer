@@ -3,6 +3,7 @@ import { Button } from "./ui/button";
 import Link from "next/link";
 
 const Navbar = () => {
+  const signedIn = true;
   return (
     <div className="bg-black text-white flex justify-between items-center py-5 px-8">
       <div>
@@ -10,9 +11,17 @@ const Navbar = () => {
           AiSum
         </Link>
       </div>
-      <div>
-        <Button>Sign In</Button>
-      </div>
+      {signedIn ? (
+        <div className="flex items-center space-x-6">
+          <Link href="/summarize" className="hover:underline">Summarize</Link>
+          <Link href="/history" className="hover:underline">History</Link>
+          <Button>Log Out</Button>
+        </div>
+      ) : (
+        <div>
+          <Button>Sign In</Button>
+        </div>
+      )}
     </div>
   );
 };
