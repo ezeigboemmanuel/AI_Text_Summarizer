@@ -20,7 +20,7 @@ const Hero = () => {
           <Link
             href="https://zgboportfolio.vercel.app"
             target="_blank"
-            className="text-blue-500 hover:underline"
+            className="text-blue-500 hover:underline text-sm md:text-base"
           >
             Emmanuel Ezeigbo
           </Link>
