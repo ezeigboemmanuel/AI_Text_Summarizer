@@ -7,7 +7,7 @@ const Navbar = () => {
     <div className="bg-black text-white flex justify-between items-center py-5 px-8">
       <div>
         <Link href="/" className="text-lg font-semibold">
-          Ztext
+          AiSum
         </Link>
       </div>
       <div>
