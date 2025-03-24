@@ -3,7 +3,7 @@ import { Button } from "./ui/button";
 import Link from "next/link";
 
 const Navbar = () => {
-  const signedIn = true;
+  const signedIn = false;
   return (
     <div className="bg-black text-white flex justify-between items-center py-5 px-4 md:px-8">
       <div>

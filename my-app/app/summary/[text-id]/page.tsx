@@ -21,20 +21,20 @@ const SummaryPage = () => {
       <div className="bg-white w-full h-[70vh] shadow-md rounded-2xl md:hidden">
         <Tabs defaultValue="summary" className="h-full">
           <TabsList className="rounded-none bg-white">
-            <TabsTrigger value="your-text">Your text</TabsTrigger>
             <TabsTrigger value="summary">Summary</TabsTrigger>
+            <TabsTrigger value="your-text">Your text</TabsTrigger>
           </TabsList>
-          <TabsContent value="your-text" className="p-3">
-            <textarea
-              disabled
-              className="w-full h-full resize-none focus:outline-none"
-            />
-          </TabsContent>
           <TabsContent value="summary" className="p-3">
             <textarea
               disabled
               className="w-full h-full resize-none focus:outline-none"
               placeholder=""
+            />
+          </TabsContent>
+          <TabsContent value="your-text" className="p-3">
+            <textarea
+              disabled
+              className="w-full h-full resize-none focus:outline-none"
             />
           </TabsContent>
         </Tabs>
