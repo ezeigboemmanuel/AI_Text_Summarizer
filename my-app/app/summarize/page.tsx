@@ -15,12 +15,15 @@ import { auth, provider } from "@/config/firebaseConfig";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { useGetUserInfo } from "@/hooks/useGetUserInfo";
+import { chatSession } from "@/config/AIConfig";
 
 const SummarizePage = () => {
   const [userText, setUserText] = useState("");
   const [open, setOpen] = useState(false);
   const router = useRouter();
   const { isAuth } = useGetUserInfo();
+
+  const [isLoading, setIsLoading] = useState(false);
 
   const signInWithGoogle = async () => {
     const results = await signInWithPopup(auth, provider);
@@ -38,13 +41,31 @@ const SummarizePage = () => {
     toast("Signed in successfully.");
   };
 
-  const generateTrip = () => {
+  const generateSummary = async () => {
     if (!isAuth) {
       setOpen(true);
       return;
     }
-    console.log("Generated");
+
+    if (userText.split("").length < 10) {
+      toast("Text too small to summarize");
+      return;
+    }
+
+    setIsLoading(true);
+
+    const prompt = `summarize this text: ${userText}`;
+    const result = await chatSession.sendMessage(prompt);
+
+    setIsLoading(false);
+    console.log(result?.response?.text());
   };
+
+  const saveSummary = () => {
+    setIsLoading(true);
+    
+  }
+
   return (
     <div className="bg-[#f5f5f5] flex flex-col justify-center items-center px-4 md:px-12 h-[90vh]">
       <div className="bg-white w-full h-[70vh] shadow-md rounded-2xl flex p-2">
@@ -61,8 +82,8 @@ const SummarizePage = () => {
         />
       </div>
 
-      <Button className="mt-8" onClick={generateTrip}>
-        Generate Summary
+      <Button className="mt-8" onClick={generateSummary}>
+        {isLoading ? "Generating..." : "Generate Summary"}
       </Button>
 
       <Dialog open={open} onOpenChange={setOpen}>
