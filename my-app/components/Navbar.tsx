@@ -1,9 +1,42 @@
-import React from "react";
+"use client";
+
 import { Button } from "./ui/button";
 import Link from "next/link";
+import { auth, provider } from "@/config/firebaseConfig";
+import { signInWithPopup, signOut } from "firebase/auth";
+import { toast } from "sonner";
+import { useGetUserInfo } from "@/hooks/useGetUserInfo";
+import { useRouter } from "next/navigation";
 
 const Navbar = () => {
-  const signedIn = false;
+  const { isAuth } = useGetUserInfo();
+  const router = useRouter();
+  const signInWithGoogle = async () => {
+    const results = await signInWithPopup(auth, provider);
+
+    const authInfo = {
+      userId: results.user.uid,
+      userEmail: results.user.email,
+      name: results.user.displayName,
+      isAuth: true,
+    };
+
+    localStorage.setItem("auth", JSON.stringify(authInfo));
+    router.refresh();
+    toast("Signed in successfully.");
+  };
+
+  const signUserOut = async () => {
+    try {
+      await signOut(auth);
+      localStorage.clear();
+      router.refresh();
+      toast("Logged out successfully");
+    } catch (error) {
+      console.log(error, "An error occurred while signing out");
+    }
+  };
+
   return (
     <div className="bg-black text-white flex justify-between items-center py-5 px-4 md:px-8">
       <div>
@@ -11,15 +44,19 @@ const Navbar = () => {
           AiSum
         </Link>
       </div>
-      {signedIn ? (
+      {isAuth ? (
         <div className="flex items-center space-x-4 md:space-x-6">
-          <Link href="/summarize" className="hover:underline">Summarize</Link>
-          <Link href="/history" className="hover:underline">History</Link>
-          <Button>Log Out</Button>
+          <Link href="/summarize" className="hover:underline">
+            Summarize
+          </Link>
+          <Link href="/history" className="hover:underline">
+            History
+          </Link>
+          <Button onClick={signUserOut}>Log Out</Button>
         </div>
       ) : (
         <div>
-          <Button>Sign In</Button>
+          <Button onClick={signInWithGoogle}>Sign In</Button>
         </div>
       )}
     </div>

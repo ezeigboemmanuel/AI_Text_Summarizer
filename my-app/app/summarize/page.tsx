@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import {
   Dialog,
@@ -9,16 +9,41 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
+import { signInWithPopup } from "firebase/auth";
+import { auth, provider } from "@/config/firebaseConfig";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
+import { useGetUserInfo } from "@/hooks/useGetUserInfo";
 
 const SummarizePage = () => {
   const [userText, setUserText] = useState("");
   const [open, setOpen] = useState(false);
+  const router = useRouter();
+  const { isAuth } = useGetUserInfo();
+
+  const signInWithGoogle = async () => {
+    const results = await signInWithPopup(auth, provider);
+
+    const authInfo = {
+      userId: results.user.uid,
+      userEmail: results.user.email,
+      name: results.user.displayName,
+      isAuth: true,
+    };
+
+    localStorage.setItem("auth", JSON.stringify(authInfo));
+    setOpen(false);
+    router.refresh();
+    toast("Signed in successfully.");
+  };
 
   const generateTrip = () => {
-    const user = localStorage.getItem("user");
-    setOpen(true);
+    if (!isAuth) {
+      setOpen(true);
+      return;
+    }
+    console.log("Generated");
   };
   return (
     <div className="bg-[#f5f5f5] flex flex-col justify-center items-center px-4 md:px-12 h-[90vh]">
@@ -50,7 +75,7 @@ const SummarizePage = () => {
             </DialogDescription>
 
             <div className="flex justify-center items-center mt-8">
-              <Button>
+              <Button onClick={signInWithGoogle}>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   x="0px"
