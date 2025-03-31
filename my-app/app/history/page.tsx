@@ -1,6 +1,12 @@
+"use client";
+
+import { db } from "@/config/firebaseConfig";
+import { useGetUserInfo } from "@/hooks/useGetUserInfo";
+import { collection, doc, getDocs, query, where } from "firebase/firestore";
 import { Copy, Trash } from "lucide-react";
 import Link from "next/link";
-import React from "react";
+import { useRouter } from "next/navigation";
+import React, { useEffect } from "react";
 
 const summaries = [
   {
@@ -36,6 +42,33 @@ const summaries = [
 ];
 
 const HistoryPage = () => {
+  const router = useRouter();
+  const { isAuth, userEmail } = useGetUserInfo();
+
+  const getHistory = async () => {
+    const q = query(
+      collection(db, "Summaries"),
+      where("userEmail", "==", userEmail)
+    );
+
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      // doc.data() is never undefined for query doc snapshots
+      console.log(doc.id, " => ", doc.data());
+    });
+  };
+
+  useEffect(() => {
+    if (isAuth) {
+      getHistory();
+    }
+  }, [isAuth]);
+
+  if (!isAuth) {
+    router.push("/");
+    return;
+  }
+
   return (
     <div className="px-4 md:px-12 py-5 max-w-5xl mx-auto">
       <h2 className="font-semibold text-2xl mb-8">Recent Summaries</h2>

@@ -11,17 +11,18 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { signInWithPopup } from "firebase/auth";
-import { auth, provider } from "@/config/firebaseConfig";
+import { auth, db, provider } from "@/config/firebaseConfig";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { useGetUserInfo } from "@/hooks/useGetUserInfo";
 import { chatSession } from "@/config/AIConfig";
+import { addDoc, collection, doc, setDoc } from "firebase/firestore";
 
 const SummarizePage = () => {
   const [userText, setUserText] = useState("");
   const [open, setOpen] = useState(false);
   const router = useRouter();
-  const { isAuth } = useGetUserInfo();
+  const { isAuth, userEmail } = useGetUserInfo();
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -59,12 +60,25 @@ const SummarizePage = () => {
 
     setIsLoading(false);
     console.log(result?.response?.text());
+
+    saveSummary(result?.response?.text());
   };
 
-  const saveSummary = () => {
+  const saveSummary = async (summary: string) => {
     setIsLoading(true);
-    
-  }
+    const id = Date.now().toString();
+
+    await setDoc(doc(db, "Summaries", id), {
+      userText,
+      summary,
+      userEmail,
+      id,
+    });
+
+    setIsLoading(false);
+
+    router.push(`/summary/${id}`);
+  };
 
   return (
     <div className="bg-[#f5f5f5] flex flex-col justify-center items-center px-4 md:px-12 h-[90vh]">
