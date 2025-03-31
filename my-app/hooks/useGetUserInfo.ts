@@ -1,6 +1,23 @@
+"use client"
+
+import { useEffect, useState } from "react";
+
 export const useGetUserInfo = () => {
-  const { name, userId, userEmail, isAuth } = JSON.parse(
-    localStorage.getItem("auth") as string
-  ) || { isAuth: false };
-  return { name, userId, userEmail, isAuth };
+  const [userInfo, setUserInfo] = useState({
+    name: "",
+    userId: "",
+    userEmail: "",
+    isAuth: false,
+  });
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const storedData = localStorage.getItem("auth");
+      if (storedData) {
+        setUserInfo(JSON.parse(storedData));
+      }
+    }
+  }, []);
+
+  return userInfo;
 };

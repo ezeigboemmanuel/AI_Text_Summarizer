@@ -21,7 +21,9 @@ const Navbar = () => {
       isAuth: true,
     };
 
-    localStorage.setItem("auth", JSON.stringify(authInfo));
+    if (typeof window !== "undefined") {
+      localStorage.setItem("auth", JSON.stringify(authInfo));
+    }
     router.refresh();
     toast("Signed in successfully.");
   };
@@ -29,7 +31,9 @@ const Navbar = () => {
   const signUserOut = async () => {
     try {
       await signOut(auth);
-      localStorage.clear();
+      if (typeof window !== "undefined") {
+        localStorage.clear();
+      }
       router.refresh();
       toast("Logged out successfully");
     } catch (error) {

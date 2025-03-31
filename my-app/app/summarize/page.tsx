@@ -36,7 +36,9 @@ const SummarizePage = () => {
       isAuth: true,
     };
 
-    localStorage.setItem("auth", JSON.stringify(authInfo));
+    if (typeof window !== "undefined") {
+      localStorage.setItem("auth", JSON.stringify(authInfo));
+    }
     setOpen(false);
     router.refresh();
     toast("Signed in successfully.");
