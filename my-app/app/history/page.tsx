@@ -25,7 +25,7 @@ interface Data {
 
 const HistoryPage = () => {
   const router = useRouter();
-  const { userEmail } = useGetUserInfo();
+  const { isAuth, userEmail } = useGetUserInfo();
   const [summaries, setSummaries] = useState<Data[]>([
     {
       id: "",
@@ -52,8 +52,10 @@ const HistoryPage = () => {
   };
 
   useEffect(() => {
-    getHistory();
-  }, []);
+    if (isAuth) {
+      getHistory();
+    }
+  }, [isAuth]);
 
   const onCopy = async (text: string) => {
     try {
