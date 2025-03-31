@@ -9,6 +9,7 @@ import { useGetUserInfo } from "@/hooks/useGetUserInfo";
 import { useRouter } from "next/navigation";
 
 const Navbar = () => {
+  // Add domain to firebase auth
   const { isAuth } = useGetUserInfo();
   const router = useRouter();
   const signInWithGoogle = async () => {

@@ -25,7 +25,7 @@ interface Data {
 
 const HistoryPage = () => {
   const router = useRouter();
-  const { isAuth, userEmail } = useGetUserInfo();
+  const { userEmail } = useGetUserInfo();
   const [summaries, setSummaries] = useState<Data[]>([
     {
       id: "",
@@ -52,10 +52,8 @@ const HistoryPage = () => {
   };
 
   useEffect(() => {
-    if (isAuth) {
-      getHistory();
-    }
-  }, [isAuth]);
+    getHistory();
+  }, []);
 
   const onCopy = async (text: string) => {
     try {
@@ -78,11 +76,6 @@ const HistoryPage = () => {
       console.log("An error occurred while deleting", error);
     }
   };
-
-  if (!isAuth) {
-    router.push("/");
-    return;
-  }
 
   return (
     <div className="px-4 md:px-12 py-5 max-w-5xl mx-auto">
