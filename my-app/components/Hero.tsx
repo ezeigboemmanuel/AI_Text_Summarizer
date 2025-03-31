@@ -18,13 +18,13 @@ const Hero = () => {
         <Button>Get Started</Button>
       </Link>
 
-      <div className="absolute bottom-0 left-5">
+      <div className="absolute bottom-0 left-5 text-sm md:text-base">
         <p>
           By{" "}
           <Link
             href="https://zgboportfolio.vercel.app"
             target="_blank"
-            className="text-blue-500 hover:underline text-sm md:text-base"
+            className="!text-blue-500 hover:underline"
           >
             Emmanuel Ezeigbo
           </Link>
