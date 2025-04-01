@@ -6,12 +6,10 @@ import { auth, provider } from "@/config/firebaseConfig";
 import { signInWithPopup, signOut } from "firebase/auth";
 import { toast } from "sonner";
 import { useGetUserInfo } from "@/hooks/useGetUserInfo";
-import { useRouter } from "next/navigation";
 
 const Navbar = () => {
   // Add domain to firebase auth
   const { isAuth } = useGetUserInfo();
-  const router = useRouter();
   const signInWithGoogle = async () => {
     const results = await signInWithPopup(auth, provider);
 
@@ -25,7 +23,9 @@ const Navbar = () => {
     if (typeof window !== "undefined") {
       localStorage.setItem("auth", JSON.stringify(authInfo));
     }
-    router.refresh();
+
+    window.location.reload();
+
     toast("Signed in successfully.");
   };
 
@@ -35,7 +35,7 @@ const Navbar = () => {
       if (typeof window !== "undefined") {
         localStorage.clear();
       }
-      router.refresh();
+      window.location.reload();
       toast("Logged out successfully");
     } catch (error) {
       console.log(error, "An error occurred while signing out");

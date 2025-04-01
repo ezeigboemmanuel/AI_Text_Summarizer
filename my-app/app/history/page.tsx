@@ -45,7 +45,7 @@ const HistoryPage = () => {
 
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
-      summariesArray.push(doc.data());
+      summariesArray.unshift(doc.data());
     });
 
     setSummaries(summariesArray);

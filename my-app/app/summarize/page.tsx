@@ -40,7 +40,7 @@ const SummarizePage = () => {
       localStorage.setItem("auth", JSON.stringify(authInfo));
     }
     setOpen(false);
-    router.refresh();
+    window.location.reload();
     toast("Signed in successfully.");
   };
 
